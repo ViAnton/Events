@@ -30,7 +30,14 @@ public class EventManager {
         Uri updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id);
 
         Cursor cursor = resolver.query(updateUri, null, null, null, null);
-        return createEventFromCursor(cursor);
+        Event result = new Event();
+
+        if (cursor != null && cursor.moveToFirst()) {
+            result = createEventFromCursor(cursor);
+            cursor.close();
+        }
+
+        return result;
     }
 
     private static Event createEventFromCursor(Cursor cursor) {

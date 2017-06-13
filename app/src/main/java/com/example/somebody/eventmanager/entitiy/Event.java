@@ -6,6 +6,7 @@ public class Event {
 
     public static final long DEFAULT_CALENDAR_ID = 1L;
     public static final String DEFAULT_TIMEZONE = TimeZone.getDefault().getID();
+    private static final String EMPTY_FIELD = "(Не указано)";
 
     private Long id;
     private String title;
@@ -28,7 +29,10 @@ public class Event {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        if (title == null || title.isEmpty())
+            this.title = EMPTY_FIELD;
+        else
+            this.title = title;
     }
 
     public Long getCalendarId() {
@@ -78,20 +82,27 @@ public class Event {
 
         Event event = (Event) o;
 
-        if (!id.equals(event.id)) return false;
+        if (id != null ? !id.equals(event.id) : event.id != null) return false;
         if (title != null ? !title.equals(event.title) : event.title != null) return false;
-        if (!dateStart.equals(event.dateStart)) return false;
-        if (!dateEnd.equals(event.dateEnd)) return false;
+        if (calendarId != null ? !calendarId.equals(event.calendarId) : event.calendarId != null)
+            return false;
+        if (dateStart != null ? !dateStart.equals(event.dateStart) : event.dateStart != null)
+            return false;
+        if (dateEnd != null ? !dateEnd.equals(event.dateEnd) : event.dateEnd != null) return false;
+        if (timeZone != null ? !timeZone.equals(event.timeZone) : event.timeZone != null)
+            return false;
         return description != null ? description.equals(event.description) : event.description == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + dateStart.hashCode();
-        result = 31 * result + dateEnd.hashCode();
+        result = 31 * result + (calendarId != null ? calendarId.hashCode() : 0);
+        result = 31 * result + (dateStart != null ? dateStart.hashCode() : 0);
+        result = 31 * result + (dateEnd != null ? dateEnd.hashCode() : 0);
+        result = 31 * result + (timeZone != null ? timeZone.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }

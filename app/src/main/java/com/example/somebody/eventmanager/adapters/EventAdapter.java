@@ -1,5 +1,6 @@
 package com.example.somebody.eventmanager.adapters;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.somebody.eventmanager.R;
 import com.example.somebody.eventmanager.Utils;
+import com.example.somebody.eventmanager.activities.EventEditorActivity;
 import com.example.somebody.eventmanager.entitiy.Event;
 
 import java.util.List;
@@ -35,6 +37,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventItemVie
         Long dtEnd = currentEvent.getDateEnd();
 
         holder.mEventTitle.setText(currentEvent.getTitle());
+        holder.mEventTitle.setTag(currentEvent.getId());
+
         holder.mEventDt.setText(Utils.parseLongToFullDate(dtStart)
                 .concat(Utils.CONCAT_DATE_PATTERN)
                 .concat(Utils.parseLongToFullDate(dtEnd)));
@@ -46,7 +50,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventItemVie
         return mEvents.size();
     }
 
-    class EventItemViewHolder extends RecyclerView.ViewHolder {
+    class EventItemViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener{
 
         TextView mEventTitle;
         TextView mEventDt;
@@ -54,10 +59,22 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventItemVie
 
         public EventItemViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
 
             mEventTitle = (TextView) itemView.findViewById(R.id.event_title);
             mEventDt = (TextView) itemView.findViewById(R.id.event_DT);
             mEventDescription = (TextView) itemView.findViewById(R.id.event_description);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(v.getContext(), EventEditorActivity.class);
+            intent.putExtra(EventEditorActivity.INCOMING_EVENT_ID,
+                    (Long) mEventTitle.getTag());
+            intent.putExtra(EventEditorActivity.INCOMING_OPERATION,
+                    EventEditorActivity.UPDATE_OPERATION);
+
+            v.getContext().startActivity(intent);
         }
     }
 }

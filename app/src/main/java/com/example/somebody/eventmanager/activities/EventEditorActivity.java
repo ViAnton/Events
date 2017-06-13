@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.somebody.eventmanager.EventManager;
 import com.example.somebody.eventmanager.R;
@@ -74,6 +75,7 @@ public class EventEditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.delete_event:
                 EventManager.delete(getApplicationContext(), mCurrentEvent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -86,7 +88,13 @@ public class EventEditorActivity extends AppCompatActivity {
 
         mEventTitle.setText(mCurrentEvent.getTitle());
         mEventDescription.setText(mCurrentEvent.getDescription());
-        mFromTime.setText(Utils.parseLongToFullDate(mCurrentEvent.getDateStart()));
+
+        mFromDate.setText(Utils.parseLongToDate(mCurrentEvent.getDateStart()));
+        mFromTime.setText(Utils.parseLongToTime(mCurrentEvent.getDateStart()));
+
+        mToDate.setText(Utils.parseLongToDate(mCurrentEvent.getDateEnd()));
+        mToTime.setText(Utils.parseLongToTime(mCurrentEvent.getDateEnd()));
+
         mEditButton.setText(getString(R.string.update_edit_button));
     }
 
@@ -112,26 +120,64 @@ public class EventEditorActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (mCurrentOperation == UPDATE_OPERATION) {
-                finish();
+                if (checkInputValues()) {
+                    updateEvent();
+                } else
+                    displayErrorMessage();
+
             } else {
-                Event event = new Event();
-
-                event.setTitle(mEventTitle.getText().toString());
-                event.setCalendarId(Event.DEFAULT_CALENDAR_ID);
-                event.setTimeZone(Event.DEFAULT_TIMEZONE);
-                event.setDateStart(Utils.parseFullDateToLong(
-                        mFromDate.getText().toString(),
-                        mFromTime.getText().toString()
-                ));
-                event.setDateEnd(Utils.parseFullDateToLong(
-                        mToDate.getText().toString(),
-                        mToTime.getText().toString()
-                ));
-                event.setDescription(mEventDescription.getText().toString());
-
-                EventManager.create(getApplicationContext(), event);
-                finish();
+                if (checkInputValues()) {
+                    createEvent();
+                } else
+                    displayErrorMessage();
             }
+        }
+
+        private void updateEvent() {
+            mCurrentEvent.setTitle(mEventTitle.getText().toString());
+
+            mCurrentEvent.setDateStart(Utils.parseFullDateToLong(
+                    mFromDate.getText().toString(),
+                    mFromTime.getText().toString()
+            ));
+            mCurrentEvent.setDateEnd(Utils.parseFullDateToLong(
+                    mToDate.getText().toString(),
+                    mToTime.getText().toString()
+            ));
+            mCurrentEvent.setDescription(mEventDescription.getText().toString());
+
+            EventManager.update(getApplicationContext(), mCurrentEvent);
+            finish();
+        }
+
+        private void createEvent() {
+            Event event = new Event();
+
+            event.setTitle(mEventTitle.getText().toString());
+            event.setCalendarId(Event.DEFAULT_CALENDAR_ID);
+            event.setTimeZone(Event.DEFAULT_TIMEZONE);
+            event.setDateStart(Utils.parseFullDateToLong(
+                    mFromDate.getText().toString(),
+                    mFromTime.getText().toString()
+            ));
+            event.setDateEnd(Utils.parseFullDateToLong(
+                    mToDate.getText().toString(),
+                    mToTime.getText().toString()
+            ));
+            event.setDescription(mEventDescription.getText().toString());
+
+            EventManager.create(getApplicationContext(), event);
+            finish();
+        }
+
+        private boolean checkInputValues() {
+            return !mEventTitle.getText().toString().isEmpty() ||
+                    !mEventDescription.getText().toString().isEmpty();
+        }
+
+        private void displayErrorMessage() {
+            Toast.makeText(EventEditorActivity.this, "Одно из полей должно быть заполнено",
+                    Toast.LENGTH_LONG).show();
         }
     }
 }

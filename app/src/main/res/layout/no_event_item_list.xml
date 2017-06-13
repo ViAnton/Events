@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="@dimen/default_padding">
+    android:gravity="center_horizontal"
+    android:paddingTop="@dimen/no_event_padding_top">
 
     <ImageView
         android:id="@+id/no_event_logo"
-        android:layout_width="80dp"
+        android:layout_width="@dimen/default_image_size"
         android:layout_height="@dimen/default_image_size"
         android:src="@drawable/ic_no_event"/>
 

@@ -8,19 +8,19 @@ public class Event {
     public static final String DEFAULT_TIMEZONE = TimeZone.getDefault().getID();
     private static final String EMPTY_FIELD = "(Не указано)";
 
-    private Long id;
+    private long id;
     private String title;
-    private Long calendarId;
-    private Long dateStart;
-    private Long dateEnd;
+    private long calendarId;
+    private long dateStart;
+    private long dateEnd;
     private String timeZone;
     private String description;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -35,27 +35,27 @@ public class Event {
             this.title = title;
     }
 
-    public Long getCalendarId() {
+    public long getCalendarId() {
         return calendarId;
     }
 
-    public void setCalendarId(Long calendarId) {
+    public void setCalendarId(long calendarId) {
         this.calendarId = calendarId;
     }
 
-    public Long getDateStart() {
+    public long getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Long dateStart) {
+    public void setDateStart(long dateStart) {
         this.dateStart = dateStart;
     }
 
-    public Long getDateEnd() {
+    public long getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Long dateEnd) {
+    public void setDateEnd(long dateEnd) {
         this.dateEnd = dateEnd;
     }
 
@@ -82,13 +82,11 @@ public class Event {
 
         Event event = (Event) o;
 
-        if (id != null ? !id.equals(event.id) : event.id != null) return false;
+        if (id != event.id) return false;
+        if (calendarId != event.calendarId) return false;
+        if (dateStart != event.dateStart) return false;
+        if (dateEnd != event.dateEnd) return false;
         if (title != null ? !title.equals(event.title) : event.title != null) return false;
-        if (calendarId != null ? !calendarId.equals(event.calendarId) : event.calendarId != null)
-            return false;
-        if (dateStart != null ? !dateStart.equals(event.dateStart) : event.dateStart != null)
-            return false;
-        if (dateEnd != null ? !dateEnd.equals(event.dateEnd) : event.dateEnd != null) return false;
         if (timeZone != null ? !timeZone.equals(event.timeZone) : event.timeZone != null)
             return false;
         return description != null ? description.equals(event.description) : event.description == null;
@@ -97,11 +95,11 @@ public class Event {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (calendarId != null ? calendarId.hashCode() : 0);
-        result = 31 * result + (dateStart != null ? dateStart.hashCode() : 0);
-        result = 31 * result + (dateEnd != null ? dateEnd.hashCode() : 0);
+        result = 31 * result + (int) (calendarId ^ (calendarId >>> 32));
+        result = 31 * result + (int) (dateStart ^ (dateStart >>> 32));
+        result = 31 * result + (int) (dateEnd ^ (dateEnd >>> 32));
         result = 31 * result + (timeZone != null ? timeZone.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;

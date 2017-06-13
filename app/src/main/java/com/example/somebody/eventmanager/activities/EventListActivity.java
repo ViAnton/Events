@@ -62,7 +62,8 @@ public class EventListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        if (isGranted())
+            getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -136,6 +137,8 @@ public class EventListActivity extends AppCompatActivity {
 
         @Override
         public void onLoadFinished(Loader<List<Event>> loader, List<Event> data) {
+            invalidateOptionsMenu();
+
             if (data.isEmpty())
                 mEventAdapter = new NoEventAdapter();
             else

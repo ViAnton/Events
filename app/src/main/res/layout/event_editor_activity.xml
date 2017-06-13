@@ -21,20 +21,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
         android:layout_marginTop="@dimen/button_margin"
+
+        android:orientation="horizontal"
         android:padding="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:text="@string/stub_begin_text"/>
 
         <TextView
             android:id="@+id/from_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
 
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:gravity="center"
             android:clickable="true"
-            tools:text="12.06.2017"/>
+            android:background="?android:attr/editTextBackground"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            tools:text="12 mot 2017" />
 
         <TextView
             android:id="@+id/from_time"
@@ -42,30 +51,40 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textAlignment="center"
+            android:gravity="center"
             android:clickable="true"
-            tools:text="2:22"/>
+            android:background="?android:attr/editTextBackground"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            tools:text="2:22" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
         android:layout_marginTop="@dimen/button_margin"
+
+        android:orientation="horizontal"
         android:padding="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:text="@string/stub_end_text"/>
 
         <TextView
             android:id="@+id/to_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
 
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:gravity="center"
             android:clickable="true"
-            tools:text="12.06.2017"/>
+            android:background="?android:attr/editTextBackground"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            tools:text="12 mot 2017" />
 
         <TextView
             android:id="@+id/to_time"
@@ -73,11 +92,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
-
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textAlignment="center"
+            android:gravity="center"
             android:clickable="true"
-            tools:text="2:22"/>
+            android:background="?android:attr/editTextBackground"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            tools:text="2:22" />
 
     </LinearLayout>
 
@@ -92,7 +111,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/cancel_button"/>
+            android:text="@string/cancel_button" />
 
         <Button
             android:id="@+id/edit_button"
@@ -100,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
-            tools:text="Action"/>
+            tools:text="Action" />
 
 
     </LinearLayout>

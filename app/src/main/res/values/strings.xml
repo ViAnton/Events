@@ -2,7 +2,7 @@
     <string name="app_name">Менеджер событий</string>
     <string name="permission_error">У приложения нет соответсвующих прав.\n Нажмите на кнопку ниже, чтобы запросить права</string>
     <string name="permission_button">Запросить права</string>
-    <string name="no_event">Увы \nМероприятий в календаре нет</string>
+    <string name="no_event">Увы, \nМероприятий в календаре нет</string>
 
     <string name="editor_activity">Редактор событий</string>
     <string name="title_hint">Название мероприятия</string>
@@ -14,4 +14,6 @@
     <string name="create_event">Создать событие</string>
     <string name="remove_event">Удалить событие</string>
     <string name="cancel_button">Отмена</string>
+    <string name="stub_begin_text">Начало</string>
+    <string name="stub_end_text">Конец</string>
 </resources>

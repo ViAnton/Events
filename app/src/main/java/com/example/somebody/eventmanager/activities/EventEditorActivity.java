@@ -1,13 +1,17 @@
 package com.example.somebody.eventmanager.activities;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.somebody.eventmanager.EventManager;
@@ -16,6 +20,7 @@ import com.example.somebody.eventmanager.Utils;
 import com.example.somebody.eventmanager.entitiy.Event;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class EventEditorActivity extends AppCompatActivity {
 
@@ -48,9 +53,14 @@ public class EventEditorActivity extends AppCompatActivity {
         mEventDescription = (EditText) findViewById(R.id.description_edit_text);
 
         mFromDate = (TextView) findViewById(R.id.from_date);
+        mFromDate.setOnClickListener(new DatePickerButtonListener());
         mFromTime = (TextView) findViewById(R.id.from_time);
+        mFromTime.setOnClickListener(new TimePickerButtonListener());
+
         mToDate = (TextView) findViewById(R.id.to_date);
+        mToDate.setOnClickListener(new DatePickerButtonListener());
         mToTime = (TextView) findViewById(R.id.to_time);
+        mToTime.setOnClickListener(new TimePickerButtonListener());
 
         mEditButton = (Button) findViewById(R.id.edit_button);
         mEditButton.setOnClickListener(new EditButtonListener());
@@ -178,6 +188,71 @@ public class EventEditorActivity extends AppCompatActivity {
         private void displayErrorMessage() {
             Toast.makeText(EventEditorActivity.this, "Одно из полей должно быть заполнено",
                     Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private class DatePickerButtonListener implements View.OnClickListener,
+            DatePickerDialog.OnDateSetListener {
+
+        private DatePickerDialog mDatePickerDialog;
+        private TextView mDateView;
+
+        @Override
+        public void onClick(View v) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.clear();
+
+            mDateView = (TextView) v;
+            calendar.setTimeInMillis(Utils.parseDateToLong(mDateView.getText().toString()));
+
+            mDatePickerDialog = new DatePickerDialog(mDateView.getContext(), this,
+                    calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH));
+
+            mDatePickerDialog.show();
+        }
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.clear();
+
+            calendar.set(year, month, dayOfMonth);
+
+            mDateView.setText(Utils.parseLongToDate(calendar.getTimeInMillis()));
+        }
+    }
+
+    private class TimePickerButtonListener implements View.OnClickListener,
+            TimePickerDialog.OnTimeSetListener {
+
+        private TimePickerDialog mTimePickerDialog;
+        private TextView mTimeView;
+
+        @Override
+        public void onClick(View v) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.clear();
+
+            mTimeView = (TextView) v;
+            calendar.setTimeInMillis(Utils.parseTimeToLong(mTimeView.getText().toString()));
+
+            mTimePickerDialog = new TimePickerDialog(mTimeView.getContext(), this,
+                    calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE),
+                    true);
+
+            mTimePickerDialog.show();
+        }
+
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.clear();
+
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
+
+            mTimeView.setText(Utils.parseLongToTime(calendar.getTimeInMillis()));
         }
     }
 }

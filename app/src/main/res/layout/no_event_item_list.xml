@@ -18,6 +18,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:text="@string/no_event_message"/>
+        android:text="@string/no_event"/>
 
 </LinearLayout>

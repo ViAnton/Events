@@ -1,7 +1,6 @@
 package com.example.somebody.eventmanager.activities;
 
 import android.Manifest;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -26,7 +25,7 @@ import com.example.somebody.eventmanager.entitiy.Event;
 
 import java.util.List;
 
-public class EventManagerActivity extends AppCompatActivity {
+public class EventListActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 999;
     private static final int LOADER_ID = 666;
@@ -43,7 +42,7 @@ public class EventManagerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.event_activity);
+        setContentView(R.layout.event_list_activity);
 
         mEventList = (RecyclerView) findViewById(R.id.event_list_view);
 
@@ -142,7 +141,7 @@ public class EventManagerActivity extends AppCompatActivity {
             else
                 mEventAdapter = new EventAdapter(data);
 
-            mEventList.setLayoutManager(new LinearLayoutManager(EventManagerActivity.this));
+            mEventList.setLayoutManager(new LinearLayoutManager(EventListActivity.this));
             mEventList.setAdapter(mEventAdapter);
 
             mLoadStub.setVisibility(View.GONE);

@@ -1,8 +1,11 @@
 package com.example.somebody.eventmanager.entitiy;
 
-import java.io.Serializable;
+import java.util.TimeZone;
 
-public class Event implements Serializable {
+public class Event {
+
+    public static final long DEFAULT_CALENDAR_ID = 1L;
+    public static final String DEFAULT_TIMEZONE = TimeZone.getDefault().getID();
 
     private Long id;
     private String title;

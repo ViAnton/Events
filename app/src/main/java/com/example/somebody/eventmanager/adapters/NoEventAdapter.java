@@ -13,7 +13,7 @@ public class NoEventAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.no_event_layout,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.no_event_item_list,
                 parent, false);
         return new NoEventViewHolder(view);
     }
@@ -31,14 +31,14 @@ public class NoEventAdapter extends RecyclerView.Adapter {
     // а нужно ли это? вьюха-то одна
     class NoEventViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageView;
-        TextView textView;
+        ImageView mImageView;
+        TextView mTextView;
 
         public NoEventViewHolder(View itemView) {
             super(itemView);
 
-            imageView = (ImageView) itemView.findViewById(R.id.no_event_logo);
-            textView = (TextView) itemView.findViewById(R.id.no_event_text);
+            mImageView = (ImageView) itemView.findViewById(R.id.no_event_logo);
+            mTextView = (TextView) itemView.findViewById(R.id.no_event_text);
         }
     }
 }

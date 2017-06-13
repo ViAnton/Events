@@ -25,6 +25,14 @@ public class EventManager {
             }
     }
 
+    public static Event getEventById(Context context, long id) {
+        ContentResolver resolver = context.getContentResolver();
+        Uri updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id);
+
+        Cursor cursor = resolver.query(updateUri, null, null, null, null);
+        return createEventFromCursor(cursor);
+    }
+
     private static Event createEventFromCursor(Cursor cursor) {
         Event event = new Event();
         event.setId(getLong(cursor, CalendarContract.Events._ID));

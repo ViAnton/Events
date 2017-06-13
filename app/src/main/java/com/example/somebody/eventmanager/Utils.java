@@ -13,35 +13,12 @@ public class Utils {
 
     public static final String CONCAT_DATE_PATTERN = " - ";
 
-    private Utils() {
-    }
+    private Utils() {}
 
     public static String parseLongToFullDate(Long date) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FULL_DATE_PATTERN);
         return simpleDateFormat.format(new Date(date));
-    }
-
-    public static Long[] parseFullDateToLong(String fullDate) {
-        String[] s = fullDate.split(CONCAT_DATE_PATTERN);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FULL_DATE_PATTERN);
-        Long start = 0L;
-        Long end = 3L;
-
-        Long[] result = new Long[2];
-        try {
-            start = simpleDateFormat.parse(s[0]).getTime();
-            end = simpleDateFormat.parse(s[1]).getTime();
-
-            result[0] = start;
-            result[1] = end;
-
-        } catch (ParseException e) {
-            Log.wtf("Parse: ", e.getLocalizedMessage());
-        }
-
-        return result;
     }
 
     public static String parseLongToDate(Long date) {
@@ -58,6 +35,7 @@ public class Utils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FULL_DATE_PATTERN);
         String full = time + ", " + date;
         Long result = null;
+
         try {
             result = simpleDateFormat.parse(full).getTime();
         } catch (ParseException e) {

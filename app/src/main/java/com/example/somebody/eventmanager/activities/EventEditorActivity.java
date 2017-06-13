@@ -2,6 +2,8 @@ package com.example.somebody.eventmanager.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,12 +15,11 @@ import com.example.somebody.eventmanager.Utils;
 import com.example.somebody.eventmanager.entitiy.Event;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
 public class EventEditorActivity extends AppCompatActivity {
 
 
-    public static final String INCOMING_EVENT = "incoming_event";
+    public static final String INCOMING_EVENT_ID = "incoming_event_id";
     public static final String INCOMING_OPERATION = "incoming_operation";
 
     public static final int CREATE_OPERATION = 1;
@@ -39,9 +40,7 @@ public class EventEditorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_editor);
-
-        mCurrentEvent = (Event) getIntent().getExtras().getSerializable(INCOMING_EVENT);
+        setContentView(R.layout.event_editor_activity);
         mCurrentOperation = getIntent().getExtras().getInt(INCOMING_OPERATION);
 
         mEventTitle = (EditText) findViewById(R.id.title_edit_text);
@@ -63,8 +62,28 @@ public class EventEditorActivity extends AppCompatActivity {
             updatePrepare();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mCurrentOperation == UPDATE_OPERATION)
+            getMenuInflater().inflate(R.menu.edit_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_event:
+                EventManager.delete(getApplicationContext(), mCurrentEvent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private void updatePrepare() {
+        Long eventID = getIntent().getExtras().getLong(INCOMING_EVENT_ID);
+        mCurrentEvent = EventManager.getEventById(getApplicationContext(), eventID);
+
         mEventTitle.setText(mCurrentEvent.getTitle());
         mEventDescription.setText(mCurrentEvent.getDescription());
         mFromTime.setText(Utils.parseLongToFullDate(mCurrentEvent.getDateStart()));
@@ -98,8 +117,8 @@ public class EventEditorActivity extends AppCompatActivity {
                 Event event = new Event();
 
                 event.setTitle(mEventTitle.getText().toString());
-                event.setCalendarId(1L);
-                event.setTimeZone(TimeZone.getDefault().getID());
+                event.setCalendarId(Event.DEFAULT_CALENDAR_ID);
+                event.setTimeZone(Event.DEFAULT_TIMEZONE);
                 event.setDateStart(Utils.parseFullDateToLong(
                         mFromDate.getText().toString(),
                         mFromTime.getText().toString()

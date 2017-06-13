@@ -14,13 +14,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.somebody.eventmanager.EventManager;
 import com.example.somebody.eventmanager.R;
-import com.example.somebody.eventmanager.Utils;
 import com.example.somebody.eventmanager.entitiy.Event;
+import com.example.somebody.eventmanager.utils.DateUtils;
+import com.example.somebody.eventmanager.utils.EventContentUtils;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class EventEditorActivity extends AppCompatActivity {
 
@@ -84,7 +83,7 @@ public class EventEditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete_event:
-                EventManager.delete(getApplicationContext(), mCurrentEvent);
+                EventContentUtils.delete(getApplicationContext(), mCurrentEvent);
                 finish();
                 return true;
             default:
@@ -94,16 +93,16 @@ public class EventEditorActivity extends AppCompatActivity {
 
     private void updatePrepare() {
         Long eventID = getIntent().getExtras().getLong(INCOMING_EVENT_ID);
-        mCurrentEvent = EventManager.getEventById(getApplicationContext(), eventID);
+        mCurrentEvent = EventContentUtils.getEventById(getApplicationContext(), eventID);
 
         mEventTitle.setText(mCurrentEvent.getTitle());
         mEventDescription.setText(mCurrentEvent.getDescription());
 
-        mFromDate.setText(Utils.parseLongToDate(mCurrentEvent.getDateStart()));
-        mFromTime.setText(Utils.parseLongToTime(mCurrentEvent.getDateStart()));
+        mFromDate.setText(DateUtils.parseDateToString(mCurrentEvent.getDateStart()));
+        mFromTime.setText(DateUtils.parseTimeToString(mCurrentEvent.getDateStart()));
 
-        mToDate.setText(Utils.parseLongToDate(mCurrentEvent.getDateEnd()));
-        mToTime.setText(Utils.parseLongToTime(mCurrentEvent.getDateEnd()));
+        mToDate.setText(DateUtils.parseDateToString(mCurrentEvent.getDateEnd()));
+        mToTime.setText(DateUtils.parseTimeToString(mCurrentEvent.getDateEnd()));
 
         mEditButton.setText(getString(R.string.update_edit_button));
     }
@@ -111,10 +110,10 @@ public class EventEditorActivity extends AppCompatActivity {
     private void createPrepare() {
         Calendar calendar = Calendar.getInstance();
 
-        mFromDate.setText(Utils.parseLongToDate(calendar.getTimeInMillis()));
-        mFromTime.setText(Utils.parseLongToTime(calendar.getTimeInMillis()));
-        mToDate.setText(Utils.parseLongToDate(calendar.getTimeInMillis()));
-        mToTime.setText(Utils.parseLongToTime(calendar.getTimeInMillis()));
+        mFromDate.setText(DateUtils.parseDateToString(calendar.getTimeInMillis()));
+        mFromTime.setText(DateUtils.parseTimeToString(calendar.getTimeInMillis()));
+        mToDate.setText(DateUtils.parseDateToString(calendar.getTimeInMillis()));
+        mToTime.setText(DateUtils.parseTimeToString(calendar.getTimeInMillis()));
 
         mEditButton.setText(getString(R.string.save_edit_button));
     }
@@ -146,17 +145,17 @@ public class EventEditorActivity extends AppCompatActivity {
         private void updateEvent() {
             mCurrentEvent.setTitle(mEventTitle.getText().toString());
 
-            mCurrentEvent.setDateStart(Utils.parseFullDateToLong(
+            mCurrentEvent.setDateStart(DateUtils.parseFromFullDate(
                     mFromDate.getText().toString(),
                     mFromTime.getText().toString()
             ));
-            mCurrentEvent.setDateEnd(Utils.parseFullDateToLong(
+            mCurrentEvent.setDateEnd(DateUtils.parseFromFullDate(
                     mToDate.getText().toString(),
                     mToTime.getText().toString()
             ));
             mCurrentEvent.setDescription(mEventDescription.getText().toString());
 
-            EventManager.update(getApplicationContext(), mCurrentEvent);
+            EventContentUtils.update(getApplicationContext(), mCurrentEvent);
             finish();
         }
 
@@ -166,17 +165,17 @@ public class EventEditorActivity extends AppCompatActivity {
             event.setTitle(mEventTitle.getText().toString());
             event.setCalendarId(Event.DEFAULT_CALENDAR_ID);
             event.setTimeZone(Event.DEFAULT_TIMEZONE);
-            event.setDateStart(Utils.parseFullDateToLong(
+            event.setDateStart(DateUtils.parseFromFullDate(
                     mFromDate.getText().toString(),
                     mFromTime.getText().toString()
             ));
-            event.setDateEnd(Utils.parseFullDateToLong(
+            event.setDateEnd(DateUtils.parseFromFullDate(
                     mToDate.getText().toString(),
                     mToTime.getText().toString()
             ));
             event.setDescription(mEventDescription.getText().toString());
 
-            EventManager.create(getApplicationContext(), event);
+            EventContentUtils.create(getApplicationContext(), event);
             finish();
         }
 
@@ -203,7 +202,7 @@ public class EventEditorActivity extends AppCompatActivity {
             calendar.clear();
 
             mDateView = (TextView) v;
-            calendar.setTimeInMillis(Utils.parseDateToLong(mDateView.getText().toString()));
+            calendar.setTimeInMillis(DateUtils.parseStringToDate(mDateView.getText().toString()));
 
             mDatePickerDialog = new DatePickerDialog(mDateView.getContext(), this,
                     calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
@@ -219,7 +218,7 @@ public class EventEditorActivity extends AppCompatActivity {
 
             calendar.set(year, month, dayOfMonth);
 
-            mDateView.setText(Utils.parseLongToDate(calendar.getTimeInMillis()));
+            mDateView.setText(DateUtils.parseDateToString(calendar.getTimeInMillis()));
         }
     }
 
@@ -235,7 +234,7 @@ public class EventEditorActivity extends AppCompatActivity {
             calendar.clear();
 
             mTimeView = (TextView) v;
-            calendar.setTimeInMillis(Utils.parseTimeToLong(mTimeView.getText().toString()));
+            calendar.setTimeInMillis(DateUtils.parseStringToTime(mTimeView.getText().toString()));
 
             mTimePickerDialog = new TimePickerDialog(mTimeView.getContext(), this,
                     calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE),
@@ -252,7 +251,7 @@ public class EventEditorActivity extends AppCompatActivity {
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);
 
-            mTimeView.setText(Utils.parseLongToTime(calendar.getTimeInMillis()));
+            mTimeView.setText(DateUtils.parseTimeToString(calendar.getTimeInMillis()));
         }
     }
 }

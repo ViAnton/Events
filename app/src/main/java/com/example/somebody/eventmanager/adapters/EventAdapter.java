@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.somebody.eventmanager.R;
-import com.example.somebody.eventmanager.Utils;
 import com.example.somebody.eventmanager.activities.EventEditorActivity;
 import com.example.somebody.eventmanager.entitiy.Event;
+import com.example.somebody.eventmanager.utils.DateUtils;
 
 import java.util.List;
 
@@ -39,9 +39,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventItemVie
         holder.mEventTitle.setText(currentEvent.getTitle());
         holder.mEventTitle.setTag(currentEvent.getId());
 
-        holder.mEventDt.setText(Utils.parseLongToFullDate(dtStart)
-                .concat(Utils.CONCAT_DATE_PATTERN)
-                .concat(Utils.parseLongToFullDate(dtEnd)));
+        holder.mEventDt.setText(DateUtils.parseToFullDate(dtStart)
+                .concat(DateUtils.CONCAT_DATE_PATTERN)
+                .concat(DateUtils.parseToFullDate(dtEnd)));
         holder.mEventDescription.setText(currentEvent.getDescription());
     }
 
@@ -51,7 +51,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventItemVie
     }
 
     class EventItemViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener{
+            implements View.OnClickListener {
 
         TextView mEventTitle;
         TextView mEventDt;

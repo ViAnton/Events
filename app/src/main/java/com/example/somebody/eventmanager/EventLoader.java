@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.example.somebody.eventmanager.entitiy.Event;
+import com.example.somebody.eventmanager.utils.EventContentUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class EventLoader extends AsyncTaskLoader<List<Event>> {
         Cursor cursor = getEventsCursor();
 
         if (cursor != null) {
-            EventManager.fillList(cursor, events);
+            EventContentUtils.fillList(cursor, events);
             cursor.close();
         }
 

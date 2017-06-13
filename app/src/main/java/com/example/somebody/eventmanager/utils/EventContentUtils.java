@@ -1,4 +1,4 @@
-package com.example.somebody.eventmanager;
+package com.example.somebody.eventmanager.utils;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -15,7 +15,7 @@ import com.example.somebody.eventmanager.entitiy.Event;
 
 import java.util.List;
 
-public class EventManager {
+public class EventContentUtils {
 
     public static void fillList(Cursor source, List<Event> target) {
         if (source.moveToFirst())
